@@ -31,10 +31,10 @@ export class Transaction {
         }
 
         const sumOfCredits = this._credits.reduce((sum, transactionComponent) => {
-            return sum + transactionComponent.amount.value;
+            return sum + transactionComponent.amount.valueInMinorUnits;
         }, 0);
         const sumOfDebits = this._debits.reduce((sum, transactionComponent) => {
-            return sum + transactionComponent.amount.value;
+            return sum + transactionComponent.amount.valueInMinorUnits;
         }, 0);
 
         const isValid = sumOfCredits === sumOfDebits;

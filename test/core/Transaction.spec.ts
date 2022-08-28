@@ -14,7 +14,7 @@ describe("Transaction component", () => {
             nature: AccountingNature.DEBIT,
         });
         const money = new Money({
-            value: 1000,
+            valueInMinorUnits: 1000,
             currency: "USD",
         });
         const transaction = new Transaction({
@@ -46,7 +46,7 @@ describe("Transaction component", () => {
                         nature: AccountingNature.CREDIT,
                     }),
                     amount: new Money({
-                        value: 100,
+                        valueInMinorUnits: 100,
                         currency: "BRL",
                     }),
                 },
@@ -58,7 +58,7 @@ describe("Transaction component", () => {
                         nature: AccountingNature.DEBIT,
                     }),
                     amount: new Money({
-                        value: 120,
+                        valueInMinorUnits: 120,
                         currency: "BRL",
                     }),
                 },
@@ -78,7 +78,7 @@ describe("Transaction component", () => {
                         nature: AccountingNature.CREDIT,
                     }),
                     amount: new Money({
-                        value: 100,
+                        valueInMinorUnits: 100,
                         currency: "BRL",
                     }),
                 },
@@ -90,7 +90,7 @@ describe("Transaction component", () => {
                         nature: AccountingNature.DEBIT,
                     }),
                     amount: new Money({
-                        value: 100,
+                        valueInMinorUnits: 100,
                         currency: "USD",
                     }),
                 },
