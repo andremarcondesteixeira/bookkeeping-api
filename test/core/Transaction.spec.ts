@@ -1,6 +1,7 @@
 import { Account } from "../../src/core/Account";
 import { AccountingNature } from "../../src/core/AccountingNature";
-import { Money } from "../../src/core/Money";
+import { DateTimeFacade } from "../../src/core/DateTimeFacade";
+import { MoneyFacade } from "../../src/core/MoneyFacade";
 import { Transaction, TransactionValidationError } from "../../src/core/Transaction";
 
 describe("Transaction component", () => {
@@ -13,7 +14,7 @@ describe("Transaction component", () => {
             name: "Bank",
             nature: AccountingNature.DEBIT,
         });
-        const money = new Money({
+        const money = new MoneyFacade({
             valueInMinorUnits: 1000,
             currency: "USD",
         });
@@ -30,11 +31,15 @@ describe("Transaction component", () => {
                     amount: money,
                 },
             ],
+            description: "test",
+            when: DateTimeFacade.fromIso("2022-08-28T19:36:00Z"),
         });
         expect(transaction.credits[0]?.account).toBe(initialBalancesAccount);
         expect(transaction.credits[0]?.amount).toBe(money);
         expect(transaction.debits[0]?.account).toBe(bankAccount);
         expect(transaction.debits[0]?.amount).toBe(money);
+        expect(transaction.description).toEqual("test");
+        expect(transaction.when.toUtcIsoString()).toEqual("2022-08-28T19:36:00.000Z");
     });
 
     test("The amount of credits must be equal to the amount of debits", () => {
@@ -45,7 +50,7 @@ describe("Transaction component", () => {
                         name: "A",
                         nature: AccountingNature.CREDIT,
                     }),
-                    amount: new Money({
+                    amount: new MoneyFacade({
                         valueInMinorUnits: 100,
                         currency: "BRL",
                     }),
@@ -57,12 +62,14 @@ describe("Transaction component", () => {
                         name: "B",
                         nature: AccountingNature.DEBIT,
                     }),
-                    amount: new Money({
+                    amount: new MoneyFacade({
                         valueInMinorUnits: 120,
                         currency: "BRL",
                     }),
                 },
             ],
+            description: "test",
+            when: DateTimeFacade.fromIso("2022-08-28T19:36:00"),
         });
         const validationResult = transaction.validate();
         expect(validationResult.isValid).toBe(false);
@@ -77,7 +84,7 @@ describe("Transaction component", () => {
                         name: "A",
                         nature: AccountingNature.CREDIT,
                     }),
-                    amount: new Money({
+                    amount: new MoneyFacade({
                         valueInMinorUnits: 100,
                         currency: "BRL",
                     }),
@@ -89,12 +96,14 @@ describe("Transaction component", () => {
                         name: "B",
                         nature: AccountingNature.DEBIT,
                     }),
-                    amount: new Money({
+                    amount: new MoneyFacade({
                         valueInMinorUnits: 100,
                         currency: "USD",
                     }),
                 },
             ],
+            description: "test",
+            when: DateTimeFacade.fromIso("2022-08-28T19:36:00"),
         });
         expect(transaction.validate().isValid).toBe(false);
         expect(transaction.validate().error).toEqual(TransactionValidationError.DIFFERENT_CURRENCIES);

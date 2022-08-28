@@ -1,13 +1,18 @@
 import type { Account } from "./Account";
-import type { Money } from "./Money";
+import type { DateTimeFacade } from "./DateTimeFacade";
+import type { MoneyFacade } from "./MoneyFacade";
 
 export class Transaction {
     private _credits: TransactionComponent[];
     private _debits: TransactionComponent[];
+    private _description: string;
+    private _when: DateTimeFacade;
 
     constructor(props: TransactionConstructorProps) {
         this._credits = [...props.credits];
         this._debits = [...props.debits];
+        this._description = props.description;
+        this._when = props.when;
     }
 
     get credits() {
@@ -16,6 +21,14 @@ export class Transaction {
 
     get debits() {
         return [...this._debits];
+    }
+
+    get description() {
+        return this._description;
+    }
+
+    get when() {
+        return this._when;
     }
 
     validate() {
@@ -46,14 +59,16 @@ export class Transaction {
     }
 }
 
-export type TransactionComponent = {
-    account: Account;
-    amount: Money;
-};
-
 export type TransactionConstructorProps = {
     credits: TransactionComponent[];
     debits: TransactionComponent[];
+    description: string;
+    when: DateTimeFacade;
+};
+
+export type TransactionComponent = {
+    account: Account;
+    amount: MoneyFacade;
 };
 
 export enum TransactionValidationError {
