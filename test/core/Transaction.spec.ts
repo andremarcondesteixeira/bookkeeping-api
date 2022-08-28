@@ -42,6 +42,40 @@ describe("Transaction component", () => {
         expect(transaction.when.toUtcIsoString()).toEqual("2022-08-28T19:36:00.000Z");
     });
 
+    test("A valid transaction passes validation", () => {
+        const transaction = new Transaction({
+            credits: [
+                {
+                    account: new Account({
+                        name: "A",
+                        nature: AccountingNature.CREDIT,
+                    }),
+                    amount: new MoneyFacade({
+                        valueInMinorUnits: 100,
+                        currency: "BRL",
+                    }),
+                },
+            ],
+            debits: [
+                {
+                    account: new Account({
+                        name: "B",
+                        nature: AccountingNature.DEBIT,
+                    }),
+                    amount: new MoneyFacade({
+                        valueInMinorUnits: 100,
+                        currency: "BRL",
+                    }),
+                },
+            ],
+            description: "test",
+            when: DateTimeFacade.fromIso("2022-08-28T19:36:00"),
+        });
+        const validationResult = transaction.validate();
+        expect(validationResult.isValid).toBe(true);
+        expect(validationResult.error).toBeUndefined();
+    });
+
     test("The amount of credits must be equal to the amount of debits", () => {
         const transaction = new Transaction({
             credits: [
