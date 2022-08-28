@@ -1,10 +1,5 @@
 import type { AccountingNature } from "./AccountingNature";
 
-export type AccountConstructorProps = {
-    name: string;
-    nature: AccountingNature;
-};
-
 export class Account {
     private _name: string;
     private _nature: AccountingNature;
@@ -22,3 +17,8 @@ export class Account {
         return this._nature;
     }
 }
+
+export type AccountConstructorProps = {
+    name: string;
+    nature: AccountingNature;
+};
