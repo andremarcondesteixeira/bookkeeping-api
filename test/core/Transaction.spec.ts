@@ -5,69 +5,46 @@ import { MoneyFacade } from "../../src/core/MoneyFacade";
 import { Transaction, TransactionValidationError } from "../../src/core/Transaction";
 
 describe("Transaction component", () => {
-    test("A Transaction component can be created", () => {
-        const initialBalancesAccount = new Account({
-            name: "Initial Balances",
+    let accountA: Account;
+    let accountB: Account;
+    let BRL_100: MoneyFacade;
+
+    beforeEach(() => {
+        accountA = new Account({
+            name: "A",
             nature: AccountingNature.CREDIT,
         });
-        const bankAccount = new Account({
-            name: "Bank",
+
+        accountB = new Account({
+            name: "B",
             nature: AccountingNature.DEBIT,
         });
-        const money = new MoneyFacade({
-            valueInMinorUnits: 1000,
-            currency: "USD",
+
+        BRL_100 = new MoneyFacade({
+            currency: "BRL",
+            valueInMinorUnits: 100,
         });
+    });
+
+    test("A Transaction component can be created", () => {
         const transaction = new Transaction({
-            credits: [
-                {
-                    account: initialBalancesAccount,
-                    amount: money,
-                },
-            ],
-            debits: [
-                {
-                    account: bankAccount,
-                    amount: money,
-                },
-            ],
+            credits: [{ account: accountA, amount: BRL_100 }],
+            debits: [{ account: accountB, amount: BRL_100 }],
             description: "test",
             when: DateTimeFacade.fromIso("2022-08-28T19:36:00Z"),
         });
-        expect(transaction.credits[0]?.account).toBe(initialBalancesAccount);
-        expect(transaction.credits[0]?.amount).toBe(money);
-        expect(transaction.debits[0]?.account).toBe(bankAccount);
-        expect(transaction.debits[0]?.amount).toBe(money);
+        expect(transaction.credits[0]?.account).toBe(accountA);
+        expect(transaction.credits[0]?.amount).toBe(BRL_100);
+        expect(transaction.debits[0]?.account).toBe(accountB);
+        expect(transaction.debits[0]?.amount).toBe(BRL_100);
         expect(transaction.description).toEqual("test");
         expect(transaction.when.toUtcIsoString()).toEqual("2022-08-28T19:36:00.000Z");
     });
 
     test("A valid transaction passes validation", () => {
         const transaction = new Transaction({
-            credits: [
-                {
-                    account: new Account({
-                        name: "A",
-                        nature: AccountingNature.CREDIT,
-                    }),
-                    amount: new MoneyFacade({
-                        valueInMinorUnits: 100,
-                        currency: "BRL",
-                    }),
-                },
-            ],
-            debits: [
-                {
-                    account: new Account({
-                        name: "B",
-                        nature: AccountingNature.DEBIT,
-                    }),
-                    amount: new MoneyFacade({
-                        valueInMinorUnits: 100,
-                        currency: "BRL",
-                    }),
-                },
-            ],
+            credits: [{ account: accountA, amount: BRL_100 }],
+            debits: [{ account: accountB, amount: BRL_100 }],
             description: "test",
             when: DateTimeFacade.fromIso("2022-08-28T19:36:00"),
         });
@@ -78,24 +55,10 @@ describe("Transaction component", () => {
 
     test("The amount of credits must be equal to the amount of debits", () => {
         const transaction = new Transaction({
-            credits: [
-                {
-                    account: new Account({
-                        name: "A",
-                        nature: AccountingNature.CREDIT,
-                    }),
-                    amount: new MoneyFacade({
-                        valueInMinorUnits: 100,
-                        currency: "BRL",
-                    }),
-                },
-            ],
+            credits: [{ account: accountA, amount: BRL_100 }],
             debits: [
                 {
-                    account: new Account({
-                        name: "B",
-                        nature: AccountingNature.DEBIT,
-                    }),
+                    account: accountB,
                     amount: new MoneyFacade({
                         valueInMinorUnits: 120,
                         currency: "BRL",
@@ -112,27 +75,13 @@ describe("Transaction component", () => {
 
     test("Currencies must be the same", () => {
         const transaction = new Transaction({
-            credits: [
-                {
-                    account: new Account({
-                        name: "A",
-                        nature: AccountingNature.CREDIT,
-                    }),
-                    amount: new MoneyFacade({
-                        valueInMinorUnits: 100,
-                        currency: "BRL",
-                    }),
-                },
-            ],
+            credits: [{ account: accountA, amount: BRL_100 }],
             debits: [
                 {
-                    account: new Account({
-                        name: "B",
-                        nature: AccountingNature.DEBIT,
-                    }),
+                    account: accountB,
                     amount: new MoneyFacade({
-                        valueInMinorUnits: 100,
                         currency: "USD",
+                        valueInMinorUnits: 100,
                     }),
                 },
             ],
