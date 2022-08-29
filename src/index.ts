@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const port = parseInt(process.env["PORT"] ?? '8080');
+const port = parseInt(process.env["PORT"] ?? "8080");
 
 app.get("/", (_req: Request, res: Response) => {
     res.send("Hello World!");
