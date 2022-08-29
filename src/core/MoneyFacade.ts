@@ -1,21 +1,32 @@
 import Dinero from "dinero.js";
 
 export class MoneyFacade {
-    private _internalObj: Dinero.Dinero;
+    private _wrappedObj: Dinero.Dinero;
 
     constructor(props: MoneyConstructorProps) {
-        this._internalObj = Dinero({
+        this._wrappedObj = Dinero({
             amount: props.valueInMinorUnits,
             currency: props.currency,
         });
     }
 
     get valueInMinorUnits() {
-        return this._internalObj.getAmount();
+        return this._wrappedObj.getAmount();
     }
 
     get currency() {
-        return this._internalObj.getCurrency();
+        return this._wrappedObj.getCurrency();
+    }
+
+    plus(other: MoneyFacade) {
+        return this.fromWrappedLibInstance(this._wrappedObj.add(other._wrappedObj));
+    }
+
+    private fromWrappedLibInstance(obj: Dinero.Dinero) {
+        return new MoneyFacade({
+            currency: obj.getCurrency(),
+            valueInMinorUnits: obj.getAmount(),
+        });
     }
 }
 
