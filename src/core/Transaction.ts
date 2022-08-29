@@ -32,8 +32,8 @@ export class Transaction {
     }
 
     validate() {
-        const sameCurrency = [...this._credits, ...this._debits].every((transactionComponent, _, creditsAndDebits) => {
-            return transactionComponent.amount.currency === creditsAndDebits[0]?.amount.currency;
+        const sameCurrency = [...this._credits, ...this._debits].every((entry, _, entries) => {
+            return entry.amount.currency === entries[0]?.amount.currency;
         });
 
         if (!sameCurrency) {
@@ -43,11 +43,11 @@ export class Transaction {
             };
         }
 
-        const sumOfCredits = this._credits.reduce((sum, transactionComponent) => {
-            return sum + transactionComponent.amount.valueInMinorUnits;
+        const sumOfCredits = this._credits.reduce((sum, entry) => {
+            return sum + entry.amount.valueInMinorUnits;
         }, 0);
-        const sumOfDebits = this._debits.reduce((sum, transactionComponent) => {
-            return sum + transactionComponent.amount.valueInMinorUnits;
+        const sumOfDebits = this._debits.reduce((sum, entry) => {
+            return sum + entry.amount.valueInMinorUnits;
         }, 0);
 
         const isValid = sumOfCredits === sumOfDebits;
