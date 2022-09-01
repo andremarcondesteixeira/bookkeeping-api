@@ -1,6 +1,11 @@
 import { DateTimeFacade } from "../../src/core/DateTimeFacade";
 
-describe("DateTimeFacade class", () => {
+describe("DateTimeFacade", () => {
+    test("A DateTimeFacade can be created", () => {
+        const instance = DateTimeFacade.fromIso("2022-08-28T19:28:00Z");
+        expect(instance.toUtcIsoString()).toEqual("2022-08-28T19:28:00.000Z");
+    });
+
     describe("Comparison operation", () => {
         test("Two instances representing the same moment in time are considered equal", () => {
             const a = DateTimeFacade.fromIso("2022-08-28T19:28:00Z");

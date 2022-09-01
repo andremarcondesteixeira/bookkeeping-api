@@ -1,6 +1,6 @@
 import { MoneyFacade } from "../../src/core/MoneyFacade";
 
-describe("MoneyFacade class", () => {
+describe("MoneyFacade", () => {
     let money: MoneyFacade;
 
     beforeEach(() => {
@@ -10,7 +10,7 @@ describe("MoneyFacade class", () => {
         });
     });
 
-    test("A MoneyFacade instance can be created", () => {
+    test("A MoneyFacade can be created", () => {
         expect(money.currency).toEqual("BRL");
         expect(money.valueInMinorUnits).toEqual(1000);
     });

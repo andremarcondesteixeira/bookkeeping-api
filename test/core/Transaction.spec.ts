@@ -4,7 +4,7 @@ import { DateTimeFacade } from "../../src/core/DateTimeFacade";
 import { MoneyFacade } from "../../src/core/MoneyFacade";
 import { Transaction, TransactionValidationError } from "../../src/core/Transaction";
 
-describe("Transaction component", () => {
+describe("Transaction", () => {
     let accountA: Account;
     let accountB: Account;
     let BRL_100: MoneyFacade;
@@ -26,7 +26,7 @@ describe("Transaction component", () => {
         });
     });
 
-    test("A Transaction component can be created", () => {
+    test("A Transaction can be created", () => {
         const transaction = new Transaction({
             credits: [{ account: accountA, amount: BRL_100 }],
             debits: [{ account: accountB, amount: BRL_100 }],
