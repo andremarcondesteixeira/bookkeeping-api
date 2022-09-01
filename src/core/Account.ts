@@ -1,4 +1,4 @@
-import type { AccountingNature } from "./AccountingNature";
+import type { AccountingNature } from "./enums/AccountingNature";
 
 export class Account {
     private _name: string;

@@ -1,5 +1,5 @@
 import { Account } from "../../src/core/Account";
-import { AccountingNature } from "../../src/core/AccountingNature";
+import { AccountingNature } from "../../src/core/enums/AccountingNature";
 
 describe("Account entity", () => {
     test("An Account entity can be created", () => {

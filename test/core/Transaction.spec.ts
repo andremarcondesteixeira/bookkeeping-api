@@ -1,5 +1,5 @@
 import { Account } from "../../src/core/Account";
-import { AccountingNature } from "../../src/core/AccountingNature";
+import { AccountingNature } from "../../src/core/enums/AccountingNature";
 import { DateTimeFacade } from "../../src/core/DateTimeFacade";
 import { MoneyFacade } from "../../src/core/MoneyFacade";
 import { Transaction, TransactionValidationError } from "../../src/core/Transaction";
