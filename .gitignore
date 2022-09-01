@@ -1,4 +1,5 @@
 .env
+.vscode
 build
 coverage
 node_modules
